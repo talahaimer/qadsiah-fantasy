@@ -12,10 +12,10 @@ name = "web"
 
 [services.variables]
 NODE_ENV = "production"
-PORT = "4000"
+PORT = "8080"
 
 [[services.ports]]
-port = 4000
+port = 8080
 handler = "http"
 
 [[services.ports.http]]
