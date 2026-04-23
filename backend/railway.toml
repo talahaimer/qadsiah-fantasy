@@ -1,0 +1,28 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+healthcheckPath = "/api/v1/health"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "web"
+
+[services.variables]
+NODE_ENV = "production"
+PORT = "4000"
+
+[[services.ports]]
+port = 4000
+handler = "http"
+
+[[services.ports.http]]
+path = "/"
+
+[[services.health_checks]]
+path = "/api/v1/health"
+interval = "15s"
+timeout = "10s"
+retries = 5

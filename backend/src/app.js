@@ -38,6 +38,16 @@ v1.use('/leaderboard', require('./routes/leaderboard'));
 v1.use('/admin', require('./routes/admin'));
 app.use('/api/v1', v1);
 
+// Health check endpoint for Railway
+app.get('/api/v1/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    service: 'qadsiah-backend',
+    version: '0.1.0'
+  });
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
