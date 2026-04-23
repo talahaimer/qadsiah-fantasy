@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Qadsiah Fantasy",
+    "slug": "qadsiah-fantasy",
+    "scheme": "qadsiah",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#0B0B0B",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.qadsiah.fantasy"
+    },
+    "android": {
+      "package": "com.qadsiah.fantasy",
+      "adaptiveIcon": {
+        "backgroundColor": "#0B0B0B"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "color": "#FFD700"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "apiUrl": "http://localhost:4000",
+      "socketUrl": "http://localhost:4000"
+    }
+  }
+}

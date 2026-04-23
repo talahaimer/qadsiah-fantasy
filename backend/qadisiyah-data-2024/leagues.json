@@ -1,0 +1,29 @@
+[
+  {
+    "externalId": "504",
+    "name": "King's Cup",
+    "season": 2026,
+    "country": "Saudi-Arabia",
+    "flag": "https://media.api-sports.io/flags/sa.svg",
+    "logo": "https://media.api-sports.io/football/leagues/504.png",
+    "type": "Cup"
+  },
+  {
+    "externalId": "667",
+    "name": "Friendlies Clubs",
+    "season": 2026,
+    "country": "World",
+    "flag": null,
+    "logo": "https://media.api-sports.io/football/leagues/667.png",
+    "type": "Cup"
+  },
+  {
+    "externalId": "307",
+    "name": "Pro League",
+    "season": 2026,
+    "country": "Saudi-Arabia",
+    "flag": "https://media.api-sports.io/flags/sa.svg",
+    "logo": "https://media.api-sports.io/football/leagues/307.png",
+    "type": "League"
+  }
+]

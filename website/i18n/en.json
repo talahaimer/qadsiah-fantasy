@@ -1,0 +1,98 @@
+{
+  "app": { "name": "Qadsiah Fantasy", "tagline": "Fantasy football & live predictions — built for the Qadsiah faithful." },
+  "nav": {
+    "home": "Home",
+    "matches": "Matches",
+    "squad": "Squad",
+    "predictions": "Predictions",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out"
+  },
+  "home": {
+    "hero_title": "Build your squad. Predict the match. Rise up the ranks.",
+    "hero_sub": "Real Qadsiah players, real matches, real rewards.",
+    "cta_play": "Start playing",
+    "cta_login": "I have an account",
+    "live_now": "Live now",
+    "upcoming": "Upcoming",
+    "recent": "Recent",
+    "no_matches": "No matches yet — check back soon."
+  },
+  "auth": {
+    "login_title": "Welcome back",
+    "register_title": "Join the fans",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "identifier": "Email or username",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "submit_login": "Log in",
+    "submit_register": "Create account",
+    "have_account": "Already have an account?",
+    "no_account": "New to Qadsiah Fantasy?"
+  },
+  "squad": {
+    "title": "My Squad",
+    "formation": "Formation",
+    "budget": "Budget",
+    "captain": "Captain",
+    "set_captain": "Make captain",
+    "save": "Save squad",
+    "saved": "Squad saved",
+    "pick_players": "Pick 5–11 players",
+    "invalid": "Squad not valid — check budget, size, and captain."
+  },
+  "predictions": {
+    "title": "Predictions",
+    "lock_in": "Lock in your call before kickoff",
+    "score": "Score",
+    "result": "Result",
+    "first_scorer": "First goal scorer",
+    "motm": "Man of the match",
+    "home_win": "Home win",
+    "away_win": "Away win",
+    "draw": "Draw",
+    "submit": "Submit prediction",
+    "submitted": "Prediction submitted",
+    "locked": "Locked",
+    "no_upcoming": "No upcoming matches to predict."
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "global": "All-time",
+    "weekly": "This week",
+    "rank": "Rank",
+    "fan": "Fan",
+    "points": "Points",
+    "my_rank": "My rank"
+  },
+  "profile": {
+    "title": "Profile",
+    "tier": "Tier",
+    "total_points": "Total points",
+    "weekly_points": "This week",
+    "streak": "Login streak",
+    "badges": "Badges"
+  },
+  "match": {
+    "kickoff": "Kickoff",
+    "status_scheduled": "Scheduled",
+    "status_live": "LIVE",
+    "status_completed": "Full time",
+    "status_cancelled": "Cancelled",
+    "events": "Events",
+    "minute": "min"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "continue": "Continue",
+    "back": "Back"
+  }
+}

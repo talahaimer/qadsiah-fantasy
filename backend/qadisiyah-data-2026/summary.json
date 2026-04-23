@@ -1,0 +1,12 @@
+{
+  "team": null,
+  "totalMatches": 0,
+  "matchesByStatus": {
+    "finished": 0,
+    "live": 0,
+    "scheduled": 0,
+    "other": 0
+  },
+  "leagues": 0,
+  "generatedAt": "2026-04-23T12:19:59.985Z"
+}

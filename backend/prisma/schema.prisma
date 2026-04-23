@@ -1,0 +1,273 @@
+// Qadsiah Fantasy — Prisma schema
+// Mirrors the SQL spec in /Volumes/Dev/qadisiya/development.md
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum Tier {
+  bronze
+  silver
+  gold
+  elite
+}
+
+enum Position {
+  GK
+  DEF
+  MID
+  FWD
+}
+
+enum MatchStatus {
+  scheduled
+  live
+  completed
+  cancelled
+}
+
+enum PredictedResult {
+  home
+  away
+  draw
+}
+
+enum EventType {
+  goal
+  assist
+  yellow_card
+  red_card
+  substitution
+  clean_sheet
+  own_goal
+  penalty_miss
+  motm
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  phone         String?
+  firstname     String?
+  lastname      String?
+  username      String   @unique
+  passwordHash  String   @map("password_hash")
+  displayName   String?  @map("display_name")
+  avatarUrl     String?  @map("avatar_url")
+  language      String   @default("ar")
+  role          Role     @default(user)
+  tier          Tier     @default(bronze)
+  totalPoints   Int      @default(0) @map("total_points")
+  weeklyPoints  Int      @default(0) @map("weekly_points")
+  loginStreak   Int      @default(0) @map("login_streak")
+  lastLoginAt   DateTime? @map("last_login_at")
+  expoPushToken String?  @map("expo_push_token")
+  isPremium     Boolean  @default(false) @map("is_premium")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  squads              Squad[]
+  predictions         Prediction[]
+  userBadges          UserBadge[]
+  leaderboardSnaps    LeaderboardSnapshot[]
+
+  @@index([totalPoints])
+  @@index([weeklyPoints])
+  @@map("users")
+}
+
+model Player {
+  id            String   @id @default(uuid())
+  externalId    String?  @unique @map("external_id")
+  nameEn        String   @map("name_en")
+  nameAr        String?  @map("name_ar")
+  position      Position
+  jerseyNumber  Int?     @map("jersey_number")
+  photoUrl      String?  @map("photo_url")
+  fantasyValue  Int      @default(10) @map("fantasy_value")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  squadPlayers    SquadPlayer[]
+  matchEvents     MatchEvent[]
+  predictedScorer Prediction[] @relation("PredictedScorer")
+  predictedMotm   Prediction[] @relation("PredictedMotm")
+
+  @@map("players")
+}
+
+model Squad {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  name       String?
+  formation  String   @default("4-3-3")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  players SquadPlayer[]
+
+  @@index([userId])
+  @@map("squads")
+}
+
+model SquadPlayer {
+  id           String   @id @default(uuid())
+  squadId      String   @map("squad_id")
+  playerId     String   @map("player_id")
+  slotPosition String?  @map("slot_position")
+  isCaptain    Boolean  @default(false) @map("is_captain")
+
+  squad  Squad  @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id])
+
+  @@unique([squadId, playerId])
+  @@index([squadId])
+  @@map("squad_players")
+}
+
+model Match {
+  id                  String      @id @default(uuid())
+  externalId          String?     @unique @map("external_id")
+  homeTeam            String      @map("home_team")
+  awayTeam            String      @map("away_team")
+  matchDate           DateTime    @map("match_date")
+  venue               String?
+  status              MatchStatus @default(scheduled)
+  homeScore           Int         @default(0) @map("home_score")
+  awayScore           Int         @default(0) @map("away_score")
+  competition         String?
+  season              String?
+  isPredictionLocked  Boolean     @default(false) @map("is_prediction_locked")
+  createdAt           DateTime    @default(now()) @map("created_at")
+  updatedAt           DateTime    @updatedAt @map("updated_at")
+
+  events      MatchEvent[]
+  predictions Prediction[]
+
+  @@index([matchDate])
+  @@index([status])
+  @@map("matches")
+}
+
+model MatchEvent {
+  id         String    @id @default(uuid())
+  externalId String?   @unique @map("external_id")
+  matchId    String    @map("match_id")
+  playerId   String?   @map("player_id")
+  eventType  EventType @map("event_type")
+  minute     Int?
+  isOwnGoal  Boolean   @default(false) @map("is_own_goal")
+  isPenalty  Boolean   @default(false) @map("is_penalty")
+  meta       Json?
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  match  Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  player Player? @relation(fields: [playerId], references: [id])
+
+  @@index([matchId])
+  @@map("match_events")
+}
+
+model Prediction {
+  id                  String           @id @default(uuid())
+  userId              String           @map("user_id")
+  matchId             String           @map("match_id")
+  predictedHomeScore  Int?             @map("predicted_home_score")
+  predictedAwayScore  Int?             @map("predicted_away_score")
+  predictedScorerId   String?          @map("predicted_scorer_id")
+  predictedMotmId     String?          @map("predicted_motm_id")
+  predictedResult     PredictedResult? @map("predicted_result")
+  pointsEarned        Int              @default(0) @map("points_earned")
+  isResolved          Boolean          @default(false) @map("is_resolved")
+  submittedAt         DateTime         @default(now()) @map("submitted_at")
+
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  match           Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  predictedScorer Player? @relation("PredictedScorer", fields: [predictedScorerId], references: [id])
+  predictedMotm   Player? @relation("PredictedMotm", fields: [predictedMotmId], references: [id])
+
+  @@unique([userId, matchId])
+  @@index([matchId])
+  @@map("predictions")
+}
+
+model LeaderboardSnapshot {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  weekNumber  Int      @map("week_number")
+  year        Int
+  points      Int
+  rank        Int
+  snapshotAt  DateTime @default(now()) @map("snapshot_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([year, weekNumber])
+  @@map("leaderboard_snapshots")
+}
+
+model Badge {
+  id            String   @id @default(uuid())
+  key           String   @unique
+  nameEn        String   @map("name_en")
+  nameAr        String?  @map("name_ar")
+  descriptionEn String?  @map("description_en")
+  descriptionAr String?  @map("description_ar")
+  iconUrl       String?  @map("icon_url")
+  pointsReward  Int      @default(0) @map("points_reward")
+
+  userBadges UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  badgeId  String   @map("badge_id")
+  earnedAt DateTime @default(now()) @map("earned_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  tokenHash  String   @unique @map("token_hash")
+  expiresAt  DateTime @map("expires_at")
+  revokedAt  DateTime? @map("revoked_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  userAgent  String?  @map("user_agent")
+  ip         String?
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?  @map("actor_id")
+  action    String
+  entity    String?
+  entityId  String?  @map("entity_id")
+  meta      Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([actorId])
+  @@map("audit_logs")
+}

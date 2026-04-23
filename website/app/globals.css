@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+}
+
+html, body { height: 100%; }
+body {
+  @apply bg-neutral-950 text-neutral-100 antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 100% -10%, rgba(255,215,0,0.12), transparent 60%),
+    radial-gradient(800px 500px at -10% 100%, rgba(255,215,0,0.08), transparent 60%);
+}
+
+[dir="rtl"] { font-family: 'Tajawal', var(--font-sans); }
+
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-4;
+}
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 font-medium transition;
+}
+.btn-primary { @apply btn bg-brand text-black hover:bg-brand-accent; }
+.btn-ghost { @apply btn bg-white/5 text-white hover:bg-white/10; }
+.btn-outline { @apply btn border border-white/15 text-white hover:bg-white/5; }
+.input {
+  @apply w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-white placeholder:text-white/40
+         focus:outline-none focus:ring-2 focus:ring-brand/60;
+}
+.chip {
+  @apply inline-flex items-center gap-1 rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-xs;
+}
+.divider { @apply h-px w-full bg-white/10 my-4; }

@@ -1,0 +1,19 @@
+{
+  "externalId": "2933",
+  "name": "Al-Qadisiyah FC",
+  "country": "Unknown",
+  "founded": 1967,
+  "logo": "https://media.api-sports.io/football/teams/2933.png",
+  "national": false,
+  "venue": {
+    "id": 1376,
+    "name": "Prince Saud bin Jalawi Stadium",
+    "address": "Damman Al-Khobar Coastal Road",
+    "city": "Khobar",
+    "capacity": 20100,
+    "surface": "grass",
+    "image": "https://media.api-sports.io/football/venues/1376.png"
+  },
+  "lastUpdated": "2026-04-23T12:24:52.811Z",
+  "apiProvider": "api_football"
+}
