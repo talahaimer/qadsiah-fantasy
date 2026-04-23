@@ -730,3 +730,7 @@ NEXT_PUBLIC_APP_NAME=Qadsiah Fantasy
 - Frontend: 3000
 - Admin: 3001
 - Mobile App: 3002
+
+## Main colors
+DA2B1F red
+FFDE01 yellow
