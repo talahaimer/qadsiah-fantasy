@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
-  return NextResponse.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    service: 'qadsiah-admin',
-    version: '0.1.0'
-  });
+  return NextResponse.json({ status: 'ok' }, { status: 200 });
 }
 
 export async function HEAD() {
