@@ -13,6 +13,14 @@ RUN npm ci && npm cache clean --force
 # Copy source code
 COPY . .
 
+# NEXT_PUBLIC_* must be available at build time for Next.js to inline them
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_SOCKET_URL
+ARG NEXT_PUBLIC_APP_NAME
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+ENV NEXT_PUBLIC_APP_NAME=$NEXT_PUBLIC_APP_NAME
+
 # Build the application
 RUN npm run build
 
