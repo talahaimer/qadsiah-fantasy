@@ -8,12 +8,27 @@ const router = express.Router();
 
 router.get('/', asyncHandler(async (_req, res) => {
   const now = new Date();
-  const upcoming = await prisma.match.findMany({
-    where: { matchDate: { gte: new Date(now.getTime() - 6 * 3600_000) } },
-    orderBy: { matchDate: 'asc' },
-    take: 50,
-  });
-  res.json(upcoming);
+  const [upcoming, completed] = await Promise.all([
+    // Upcoming matches (including last 6 hours to show recent live)
+    prisma.match.findMany({
+      where: { matchDate: { gte: new Date(now.getTime() - 6 * 3600_000) } },
+      orderBy: { matchDate: 'asc' },
+      take: 50,
+    }),
+    // Past completed matches (last 30 days)
+    prisma.match.findMany({
+      where: { 
+        status: 'completed',
+        matchDate: { lt: new Date(now.getTime() - 6 * 3600_000) }
+      },
+      orderBy: { matchDate: 'desc' },
+      take: 30,
+    })
+  ]);
+  
+  // Combine and sort by date (upcoming first, then past)
+  const allMatches = [...upcoming, ...completed];
+  res.json(allMatches);
 }));
 
 router.get('/live', asyncHandler(async (_req, res) => {
