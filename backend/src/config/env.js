@@ -16,7 +16,9 @@ const env = {
   CORS_ORIGINS: (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:3001,http://localhost:3002')
     .split(',')
     .map((s) => s.trim())
-    .filter(Boolean),
+    .filter(Boolean)
+    // Normalize: remove trailing slashes and collapse accidental double schemes (e.g. "https://https://host")
+    .map((s) => s.replace(/^(https?:\/\/)+(https?:\/\/)/i, '$2').replace(/\/+$/, '')),
 
   DATABASE_URL: required('DATABASE_URL'),
   REDIS_URL: process.env.REDIS_URL || 'redis://localhost:6379',

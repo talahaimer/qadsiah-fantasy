@@ -2,7 +2,7 @@
 
 import { useAuthStore } from '@/stores/authStore';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
 export const API_BASE = `${API_URL}/api/v1`;
 
 async function doFetch(path, { method = 'GET', body, headers = {}, auth = true } = {}) {
