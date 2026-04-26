@@ -3,7 +3,7 @@ builder = "DOCKERFILE"
 
 [deploy]
 healthcheckPath = "/health"
-healthcheckTimeout = 600
+healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
 
@@ -20,9 +20,3 @@ handler = "http"
 
 [[services.ports.http]]
 path = "/"
-
-[[services.health_checks]]
-path = "/health"
-interval = "15s"
-timeout = "10s"
-retries = 5
