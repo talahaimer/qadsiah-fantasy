@@ -56,8 +56,8 @@ initSocket(server);
 registerJobs();
 
 if (require.main === module) {
-  server.listen(env.PORT, () => {
-    logger.info(`Qadsiah backend listening on :${env.PORT} (${env.NODE_ENV})`);
+  server.listen(env.PORT, '0.0.0.0', () => {
+    logger.info(`Qadsiah backend listening on 0.0.0.0:${env.PORT} (${env.NODE_ENV})`);
   });
 }
 
