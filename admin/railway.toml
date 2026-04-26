@@ -12,11 +12,3 @@ name = "web"
 
 [services.variables]
 NODE_ENV = "production"
-PORT = "3001"
-
-[[services.ports]]
-port = 3001
-handler = "http"
-
-[[services.ports.http]]
-path = "/"

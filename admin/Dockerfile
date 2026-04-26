@@ -31,8 +31,8 @@ USER nodejs
 EXPOSE 3001
 
 # Health check with longer startup period
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
-  CMD node -e "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+  CMD node -e "require('http').get('http://localhost:'+(process.env.PORT||3001)+'/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
 
-# Start the application
-CMD ["npm", "start"]
+# Start the application (shell form so $PORT is expanded)
+CMD npm start
