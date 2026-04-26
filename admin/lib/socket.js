@@ -3,7 +3,14 @@
 import { io } from 'socket.io-client';
 import { useAuthStore } from '@/stores/authStore';
 
-const URL = (process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
+function normalizeUrl(raw, fallback) {
+  let u = (raw || fallback || '').trim();
+  u = u.replace(/^(https?)\/\/(?!\/)/i, '$1://');
+  u = u.replace(/^(?:https?:\/\/)+(https?:\/\/)/i, '$1');
+  if (!/^https?:\/\//i.test(u)) u = `https://${u.replace(/^\/+/, '')}`;
+  return u.replace(/\/+$/, '');
+}
+const URL = normalizeUrl(process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_API_URL, 'http://localhost:4000');
 let socket = null;
 
 export function getSocket() {

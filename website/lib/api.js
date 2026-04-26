@@ -2,7 +2,14 @@
 
 import { useAuthStore } from '@/stores/authStore';
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
+function normalizeUrl(raw, fallback) {
+  let u = (raw || fallback || '').trim();
+  u = u.replace(/^(https?)\/\/(?!\/)/i, '$1://');
+  u = u.replace(/^(?:https?:\/\/)+(https?:\/\/)/i, '$1');
+  if (!/^https?:\/\//i.test(u)) u = `https://${u.replace(/^\/+/, '')}`;
+  return u.replace(/\/+$/, '');
+}
+const API_URL = normalizeUrl(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:4000');
 export const API_BASE = `${API_URL}/api/v1`;
 
 async function doFetch(path, { method = 'GET', body, headers = {}, auth = true } = {}) {
